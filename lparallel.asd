@@ -75,8 +75,7 @@ See http://lparallel.org for documentation and examples.
 "
   :licence "BSD"
   :author "James M. Lawrence <llmjjmll@gmail.com>"
-  :depends-on (:alexandria
-               :bordeaux-threads)
+  :depends-on (:alexandria :bordeaux-threads :stmx)
   :serial t
   :components               ((:module "src"
                               :serial t

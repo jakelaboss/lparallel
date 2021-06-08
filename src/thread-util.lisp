@@ -157,11 +157,14 @@
   `(progn ,@body))
 
 (defmacro with-thread ((&key bindings name) &body body)
-  `(let ((*default-special-bindings* ,bindings))
-     (make-thread (lambda ()
-                    (with-abort-restart
-                      ,@body))
-                  :name ,name)))
+  `(let ((*default-special-bindings*
+         ;; append instead of replace
+         (append ,bindings *default-special-bindings*)))
+     (stmx.lang:start-thread (lambda ()
+                               (with-abort-restart
+                                 ,@body))
+                             :initial-bindings *default-special-bindings*
+                             :name ,name)))
 
 (defmacro with-lock-predicate/no-wait (lock predicate &body body)
   ;; predicate intentionally evaluated twice
